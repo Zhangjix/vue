@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<style type="text/css">
+			[v-cloak]{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--使用v-cloak 能够解决 插值表单式闪烁的问题-->
+			<p v-cloak>-------{{msg}}+++++++</p>
+			<h4 v-text="msg">=========</h4>
+			<!--默认 v-text 没有闪烁问题-->
+			<!--v-text 会覆盖元素中原本的内容，但是插入表达式 v-cloak 只会替换自己的这个占位符 不会把整个元素的内容清空 -->
+			
+			<div>{{msg2}}</div>
+			<div v-text>{{msg2}}</div>
+			<div v-html="msg2">1111111</div>
+			
+			<!--v-bind:是在Vue中提供绑定属性的指令-->
+			<!--注意v-bind可以进行简写为 : -->
+			<!--<input type="button" value="按钮" v-bind:title="mytitle +'123'" />-->
+			<!--可以写合法的js表达式-->
+			<input type="button" value="按钮" :title="mytitle +'123'"/><br>
+			
+			<!--v-on:事件绑定机制-->
+			<!--<input type="button" value="点击事件" v-on:mouseover="show"/>-->
+			<input type="button" value="点击事件" @mouseover="show"/>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'123',
+				msg2:'<h1>哈哈哈，我是一个大大的H1</h1>',
+				mytitle:'这是自己定义的tilte'
+			},
+			methods:{ //定义了vue所有可用的fangfa
+				show:function(){
+					alert('Hello world')
+				}
+			}
+		});
+	</script>
+</html>

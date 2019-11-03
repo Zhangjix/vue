@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title></title>
+	<script src="../js/vue.js"></script>
+	<style>
+		.a {
+			background: darkcyan;
+			line-height: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<div @click="divclick" class="a">
+			<!-- 使用 .stop 阻止冒泡-->
+			<input type="button" value="戳他" @click.stop="btnclick">
+		</div>
+
+		<!-- 使用 .prevent 阻止默认行为 -->
+		<a href="http://www.baidu.com" @click.prevent="tz">有问题，先百度</a>
+
+		<div @click.capture="divclick" class="a">
+			<!-- 使用 .capture 捕获触发事件-->
+			<input type="button" value="戳他" @click.stop="btnclick">
+		</div><br>
+
+		<div @click.self="divclick" class="a">
+			<!-- 使用 .self 實現只有當前點擊事件-->
+			<input type="button" value="戳他" @click.stop="btnclick">
+		</div><br>
+
+		<!-- 使用 .once 只觸發一次 -->
+		<a href="http://www.baidu.com" @click.prevent.once="tz">有问题，先百度</a>
+
+	</div>
+
+</body>
+<script type="text/javascript">
+	var vm = new Vue({
+		el: "#app",
+		data: {},
+		methods: {
+			divclick() {
+				console.log('div 的触发事件')
+			},
+			btnclick() {
+				console.log('btn 触发事件')
+			},
+			tz() {
+				console.log('百度')
+			}
+		}
+	});
+</script>
+
+</html>

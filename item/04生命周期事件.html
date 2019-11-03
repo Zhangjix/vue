@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+        <input type="button" value="修改" @click="msg = 'ok'">
+		<p id="dd">{{msg}}</p>
+	</div>
+	
+</body>
+ <script type="text/javascript">
+    	var vm = new Vue({
+		el:"#app",
+		data:{
+			msg: '学习vue'
+		},
+        methods : {},
+        beforeCreate(){ //这是我们遇到第一个生命的周期，表示实例完全被创建出来之前,会执行
+            // console.log(this.msg)  //在生命周期执行时，data ，methods 都还没有进行初始化
+        },
+        created(){ //第二个 已经初始化完成
+            console.log(this.msg)
+        },
+        beforeMount(){ //第三个  表示 模板已经存在内存中编译完成，但尚未把模板渲染到页面中
+            console.log(document.getElementById('dd').innerText)
+        },
+        mounted(){ // 第四个 表示 内存中的模板 已经挂载到了页面中 ，用户已经可以看到渲染好的页面
+            console.log(document.getElementById('dd').innerText)
+            // 这是最后一个  如果没其他操作就在内存中一动不动
+        },
+
+        //接下来运行的两件事件
+
+        beforeUpdate(){ // 这时候界面的数据还未更新 但数据已经更新
+            console.log('界面上的原素内容:'+document.getElementById('dd').innerText)
+            console.log('data 中 msg的数据:'+this.msg)
+            //执行者beforUpdate的时候 页面显示中的数据还是旧的 此时的data数据是最新的 尚未与界面同步
+        },
+        updated(){
+            console.log('界面上的原素内容:'+document.getElementById('dd').innerText)
+            console.log('data 中 msg的数据:'+this.msg)
+        }
+	});
+    </script>
+</html>

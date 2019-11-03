@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .a{
+            font-size: 24px;
+        }
+        .b{
+            color:red;
+        }
+        .c{
+            border: solid 2px slateblue;
+        }
+    </style>
+</head>
+<body>
+	<div id="app">
+        <h1 class="a b">ddddd</h1>
+        
+        <!-- 使用 v-bind  -->
+        <div :class="['b','a']">ddff</div>
+
+        <!-- 在数组中使用三元表达式 -->
+        <div :class="['b','a',flag?'c' : '']">ggg</div>
+
+        <!-- 在数组中使用 对象代替三元表达式 -->
+        <div :class="['b','a',{'c':flag}]">发斯蒂芬</div>
+        
+         <!-- 在数组中使用 对象 -->
+         <div :class="{a:false , b:true}">嘎嘎嘎</div>
+	</div>
+	
+</body>
+ <script type="text/javascript">
+    	var vm = new Vue({
+		el:"#app",
+		data:{
+			flag : true
+		}
+	});
+    </script>
+</html>

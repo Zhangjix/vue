@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+        <p v-for="(item , i) in list">{{i}}-----{{item}}</p>
+        <p v-for="(user, i) in pp">{{i}}------{{user.name}}-----{{user.age}}</p>
+	</div>
+	
+</body>
+ <script type="text/javascript">
+    	var vm = new Vue({
+		el:"#app",
+		data:{
+			list : [1,2,3,4,5,6],
+            pp :[
+                {name: 'lisi', age: 4},
+                {name: 'xiaowo', age: 5},
+                {name: 'ddx', age: 51},
+                {name: 'QQQ', age: 6},
+            ]
+		}
+	});
+    </script>
+</html>

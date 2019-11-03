@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <label>ID:
+             <input type="text" v-model='id'>
+        </label>
+       
+        <label>Name:
+             <input type="text" v-model='name'>
+        </label>
+       
+        <input type="button" value="添加" @click='add'>
+
+        <!-- 使用v-for 循环时候 key 属性只能使用 number获取string’ -->
+        <!-- 注意: key使用的时候，必须使用v-bind 属性绑定，指定key的值 -->
+        <p v-for="item in list" :key="item.id">
+            <input type="checkbox">{{item.id}}-----{{item.name}}
+        </p>
+    </div>
+</body>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data:{
+                id : '',
+                name : '',
+               list:[
+                   {id : 1 , name : '大概'},
+                   {id : 2 , name : '发送'},
+                   {id : 3 , name : '安抚'},
+                   {id : 4 , name : '打发'},
+                   {id : 5 , name : '那是'},
+               ]
+            },
+            methods:{
+                add(){
+                    // this.list.push({id: this.id , name: this.name})
+                    this.list.unshift({id: this.id , name: this.name})
+                }
+            }
+        });
+    </script>
+</html>

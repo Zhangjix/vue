@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div style="white-space:nowrap;">
+            <label>ID
+                <input type="text" v-model="id">
+            </label>
+            <label>Name
+                <input type="text" v-model="name" @keyup.enter='add'>
+            </label>
+
+            <input type="button" @click='add' value="添加">
+
+            <label>搜索
+                <input type="text" v-model="keywords" v-focus v-color="'blue'">
+            </label>
+        </div>
+        <table border="2" style="width: 500px; height: 100px;">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Ctime</th>
+                <th>Operation</th>
+            </tr>
+            <tr v-for="item in key(keywords)" :key="item.id">
+                <td>{{ item.id }}</td>
+                <td v-text="item.name"></td>
+                <td>{{ item.Ctime | dataFormat('')}}</td>
+                <td>
+                    <a href="" @click.prevent='del(item.id)'>删除</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="app2">
+        <p v-fontweight="900">{{ dt | dataFormat }}</p>
+    </div>
+
+</body>
+<script type="text/javascript">
+    // 在采用定时器时是按就近原则
+    Vue.filter('dataFormat', function (dataStr, miao = '') {
+        var dt = new Date(dataStr)
+        console.log(dt)
+        var y = dt.getFullYear()
+        var m = dt.getMonth() + 1
+        var r = dt.getDate()
+
+        // return y + '-' + m + '-' + r
+        // return `${y}-${m}-${r}` //模板字符串
+
+        if (miao.toLowerCase() === 'yyyy-mm-dd') {
+            return `${y}-${m}-${r}` //模板字符串
+        } else {
+            var hh = dt.getHours()
+            var mm = dt.getMinutes()
+            var ss = dt.getSeconds()
+
+            return `${y}-${m}-${r} ${hh}:${mm}:${ss}`
+        }
+    })
+
+    Vue.directive('focus', {
+        inserted : function(el) {
+            el.focus();
+        }
+    });
+
+    Vue.directive('color', {
+        bind : function(el,binding) {
+            // el.style.color = 'red'
+            el.style.color = binding.value
+        }
+    });
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            id: '',
+            name: '',
+            keywords: '',
+            list: [
+                { id: 1, name: '阿达', Ctime: new Date() },
+                { id: 2, name: '艾尔', Ctime: new Date() }
+            ],
+        },
+        methods: {
+            add() {
+                var car = { id: this.id, name: this.name, Ctime: new Date() }
+                this.list.push(car)
+                this.id = this.name = ''
+            },
+            del(id) {
+                // this.list.some((item, i) => {
+                //     console.log(item)
+                //     this.list.splice(i, 1)
+                //     return true;
+                // })
+
+                var index = this.list.findIndex(item => {
+                    if (item.id == id) {
+                        // console.log(item.id)
+                        return true;
+                    }
+                })
+                this.list.splice(index, 1)
+            },
+            key(keywords) {
+                // var newList=[]
+                // this.list.forEach(item => {
+                //     if (item.name.indexOf(keywords) != -1){
+                //         newList.push(item) 
+                //     }
+                // });
+                // return newList
+
+                return this.list.filter(item => {
+                    if (item.name.includes(keywords)) {
+                        return item
+                    }
+                });
+
+            }
+        },
+        filters: {
+                dataFormat: function (dataStr, miao = '') {
+                    var dt = new Date(dataStr)
+                    console.log(dt)
+                    var y = dt.getFullYear()
+                    var m = (dt.getMonth() + 1).toString().padStart(2,'0')
+                    var r = dt.getDate().toString().padStart(2,'0')
+
+                    // return y + '-' + m + '-' + r
+                    // return `${y}-${m}-${r}` //模板字符串
+
+                    if (miao.toLowerCase() === 'yyyy-mm-dd') {
+                        return `${y}-${m}-${r}` //模板字符串
+                    } else {
+                        var hh = dt.getHours().toString().padStart(2,'0')
+                        var mm = dt.getMinutes().toString().padStart(2,'0')
+                        var ss = dt.getSeconds().toString().padStart(2,'0')
+
+                        return `${y}-${m}-${r} ${hh}:${mm}:${ss}~~~~~~~~~`
+                    }
+                }
+            }
+    });
+
+    var  vx  = new Vue({
+        el : '#app2',
+        data : {
+            dt : new Date()
+        },
+        methods : {},
+        directives  : {
+            'fontWeight' : function( el){
+                el.style.color = 'red'
+            }
+        }
+    });
+ 
+
+</script>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p>{{ msg | guolv('天真+1','dd') | test }}</p>
+	</div>
+	
+</body>
+ <script type="text/javascript">
+        Vue.filter('guolv',function(msg,pp,dd){
+           return  msg.replace(/我/g, pp + dd)
+        })
+
+        Vue.filter('test',function(msg){
+            return msg.replace('1','55')
+        })
+    	var vm = new Vue({
+		el:"#app",
+		data:{
+			msg: '学习vue,单纯的我，我总是在迷茫寻找答案，但我不够努力，我不够坚持，我只会吹牛皮'
+		}
+	});
+    </script>
+</html>
