@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div style="white-space:nowrap;">
+            <label>ID
+                <input type="text" v-model="id">
+            </label>
+            <label>Name
+                <input type="text" v-model="name">
+            </label>
+
+            <input type="button" @click='add' value="添加">
+
+            <label>搜索
+                <input type="text" v-model="keywords">
+            </label>
+        </div>
+        <table border="2" style="width: 500px; height: 100px;">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Operation</th>
+            </tr>
+            <tr v-for="item in list" :key="item.id">
+                <td>{{ item.id }}</td>
+                <td v-text="item.name"></td>
+                <td>{{ item.status }}</td>
+                <td>
+                    <a href="" @click.prevent='del(item.id)'>删除</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            id: '',
+            name: '',
+            keywords: '',
+            list: [
+                { id: 1, name: '阿达', status: new Date() },
+                { id: 2, name: '艾尔', status: new Date() }
+            ]
+        },
+        created() {  //当 data  methods 初始化完毕后会自动调用会created生命周期函数
+            this.getAllList()
+        },
+        methods: {
+            getAllList() {
+                this.$http.get('http://localhost/tp/public/index.php/api/api/index').then(result => {
+                    var result = result.body
+                    console.log(result.message)
+                    if (result.status === 0) {
+                        this.list = result.message
+                    } else {
+                        alert('获取失败')
+                    }
+                })
+            },
+            add() {
+                // { id: this.id, name: this.name, status: this.status }
+                // var car = { id: this.id, name: this.name, Ctime: new Date() }
+                // this.list.push(car)
+                // this.id = this.name = ''
+                this.$http.post('http://localhost/tp/public/index.php/api/api/add', { name: this.name, status: this.status } , { emulateJSON : true}).then(result =>{
+                    console.log(result.body)
+                    if(result.body.status === 0 ){
+                        this.getAllList();
+                        this.id = this.name = ''
+                    } else{
+                        alert('添加失败')
+                    }
+                })
+            },
+            del(id) {
+                this.$http.get('http://localhost/tp/public/index.php/api/api/delete', {
+                    params: {
+                        id:id
+                    }
+                }).then(result => {
+                    var result = result.body
+                    if (result.status === 0) {
+                        this.getAllList();
+                    } else {
+                        alert('删除失败')
+                    }
+                })
+            },
+            key(keywords) {
+
+                
+            }
+        }
+    });
+</script>
+
+</html>
